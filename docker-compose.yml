@@ -1,0 +1,16 @@
+#docker-compose up --build -V
+
+version: '3'
+services:
+  app:
+    container_name: cs4443_app
+    build: ./app
+    restart: always
+    env_file: app/.app.env
+    ports:
+      - "80:80"
+  db:
+    container_name: cs4443_db
+    build: ./database
+    restart: always
+    env_file: database/.db.env
