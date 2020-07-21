@@ -28,5 +28,6 @@ CREATE TABLE orders (
 DROP TABLE IF EXISTS order_lines;
 CREATE TABLE order_lines (
   order_id int(11) NOT NULL,
-  item_id int(11)  NOT NULL
+  item_id int(11)  NOT NULL,
+  qty int(2) NOT NULL
 );
