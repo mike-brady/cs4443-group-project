@@ -240,10 +240,18 @@ $(document).ready(function(){
         }
     });
   });
-})
+});
+
 function updateTotal(price, qty, id) {
-  total = price * qty;
-  document.getElementById(id).innerHTML = "$" + total.toFixed(2);
+  itemTotal = price * qty;
+  document.getElementById(id).innerHTML = "$" + itemTotal.toFixed(2);
+
+  items = document.querySelectorAll('[id$="-total"]');
+  total = 0;
+  for(i=0; i<items.length; i++) {
+    total += parseInt(items[i].innerHTML.substr(1));
+  }
+  document.getElementById("total").innerHTML = "$" + total.toFixed(2);
 }
 </script>
 
