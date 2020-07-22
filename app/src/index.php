@@ -1,3 +1,13 @@
+<?php
+require_once("db/conn.php");
+$conn = connect();
+
+$stmt = $conn->prepare("SELECT id, name, description, price, image FROM items");
+$stmt->execute();
+
+$items = $stmt->fetchAll();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,58 +147,22 @@
     <h4>Choose a meal you would enjoy</h4>
   </div>
   <div class="row slideanim">
-    <div class="col-sm-4 col-xs-12">
-      <div class="panel panel-default text-center">
-        <div class="panel-heading">
-          <h1>Basic Meal</h1>
-        </div>
-        <div class="panel-body">
-          <p>Hamburger Palace Burger</p>
-          <p>French-Fries</p>
-          <p>Drink</p>
-        </div>
-        <div class="panel-footer">
-          <h3>$7</h3>
-
-          <button class="btn btn-lg">Order</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4 col-xs-12">
-      <div class="panel panel-default text-center">
-        <div class="panel-heading">
-          <h1>Ultra Meal</h1>
-        </div>
-        <div class="panel-body">
-          <p>Hamburger Palace Burger</p>
-          <p>French-Fries</p>
-          <p>Drink</p>
-          <p>Ultra Taters</p>
-        </div>
-        <div class="panel-footer">
-          <h3>$10</h3>
-          <button class="btn btn-lg">Order</button>
+    <?php foreach($items as $item): ?>
+      <div class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-heading">
+            <h1><?= $item['name']; ?></h1>
+          </div>
+          <div class="panel-body">
+            <?= $item['description']; ?>
+          </div>
+          <div class="panel-footer">
+            <h3>$<?= $item['price']; ?></h3>
+            <button class="btn btn-lg">Order</button>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-4 col-xs-12">
-      <div class="panel panel-default text-center">
-        <div class="panel-heading">
-          <h1>MEGA Meal</h1>
-        </div>
-        <div class="panel-body">
-          <p>Hamburger Palace Burger</p>
-          <p>French-Fries</p>
-          <p>Drink</p>
-          <p>Ultra Taters</p>
-          <p>MEGA MILKSHAKE</p>
-        </div>
-        <div class="panel-footer">
-          <h3>$15</h3>
-          <button class="btn btn-lg">Order</button>
-        </div>
-      </div>
-    </div>
+    <?php endforeach; ?>
   </div>
 </div>
 
