@@ -164,7 +164,7 @@ $items = $stmt->fetchAll();
           </div>
           <div class="panel-footer">
             <h3>$<?= $item['price']; ?></h3>
-            <a href="order.php"><button class="btn btn-lg">Order</button></a>
+            <a href="#order"><button class="btn btn-lg">Order</button></a>
           </div>
         </div>
       </div>
