@@ -2,6 +2,11 @@
 require_once("db/conn.php");
 $conn = connect();
 
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+  // Add PHP to enter order into database
+  // Redirect to order.php?id=[order_id_from_database]
+}
+
 $stmt = $conn->prepare("SELECT id, name, description, price, image FROM items");
 $stmt->execute();
 
@@ -40,6 +45,7 @@ $items = $stmt->fetchAll();
         <li><a href="#services">SERVICES</a></li>
         <li><a href="#portfolio">CUSTOMERS</a></li>
         <li><a href="#pricing">PRICING</a></li>
+        <li><a href="#order">ORDER</a></li>
         <li><a href="#contact">CONTACT</a></li>
       </ul>
     </div>
@@ -158,7 +164,7 @@ $items = $stmt->fetchAll();
           </div>
           <div class="panel-footer">
             <h3>$<?= $item['price']; ?></h3>
-            <button class="btn btn-lg">Order</button>
+            <a href="order.php"><button class="btn btn-lg">Order</button></a>
           </div>
         </div>
       </div>
@@ -166,44 +172,39 @@ $items = $stmt->fetchAll();
   </div>
 </div>
 
-<!-- Container (Contact Section) -->
-<div id="contact" class="container-fluid bg-grey">
-  <h2 class="text-center">CONTACT</h2>
-  <div class="row">
-    <div class="col-sm-5">
-      <p>Contact us and we'll get back to you within 24 hours.</p>
-      <p><span class="glyphicon glyphicon-map-marker"></span> Troy, AL</p>
-      <p><span class="glyphicon glyphicon-phone"></span> (251)555-3333</p>
-      <p><span class="glyphicon glyphicon-envelope"></span> me@thehanmburgerpalace.com</p>
-    </div>
-    <div class="col-sm-7 slideanim">
-      <div class="row">
-        <div class="col-sm-6 form-group">
-          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-        </div>
-        <div class="col-sm-6 form-group">
-          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
-        </div>
-      </div>
-      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
-      <div class="row">
-        <div class="col-sm-12 form-group">
-          <button class="btn btn-default pull-right" type="submit">Send</button>
-        </div>
-      </div>
-    </div>
+<!-- Container (Order Section) -->
+<div id="order" class="container-fluid">
+  <div class="text-center">
+    <h2>Order</h2>
+  </div>
+  <div class="row slideanim">
+    <form method="POST">
+      <table>
+        <tr><th>Item</th><th>Description</th><th>Price</th><th>Qty</th><th>Total</th><tr>
+      <?php foreach($items as $item): ?>
+        <tr>
+          <td><?= $item['name'] ?></td>
+          <td><?= $item['description'] ?></td>
+          <td>$<?= $item['price'] ?></td>
+          <td><input type="number" name="<?= item['id'] ?>" value="0" step="1" min="0" onchange="updateTotal(<?= $item['price']; ?>, this.value, '<?= $item['id'] ?>-total');" /></td>
+          <td id="<?= $item['id'] ?>-total">$0.00</td>
+        </tr>
+      <?php endforeach; ?>
+      <tr><th colspan="4">Total</th><th id="total">$0.00</th><tr>
+    </table>
+    <hr>
+    <table>
+      <tr><th>Name:</th><td colspan="2"><input type="text" name="name" /></td></tr>
+      <tr><th>Address:</th><td colspan="2"><input type="text" name="addrss" /></td></tr>
+      <tr><th>Phone Number:</th><td><input type="text" name="phone" /></td><td>
+      <input type="submit" value="Place Order" /></td></tr>
+    </table>
+    </form>
+    <hr>
   </div>
 </div>
 
-<!-- Image of location/map -->
-<img src="https://gurufocus.s3.amazonaws.com/photos/companies/red_robin_burger_hamburger_french_fries.jpeg" class="w3-image w3-greyscale-min" style="width:100%">
-
-<footer class="container-fluid text-center">
-  <a href="#myPage" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-
-</footer>
+<?php include("includes/footer.php") ?>
 
 <script>
 $(document).ready(function(){
@@ -240,6 +241,10 @@ $(document).ready(function(){
     });
   });
 })
+function updateTotal(price, qty, id) {
+  total = price * qty;
+  document.getElementById(id).innerHTML = "$" + total.toFixed(2);
+}
 </script>
 
 </body>

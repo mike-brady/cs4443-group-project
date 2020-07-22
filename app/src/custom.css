@@ -16,7 +16,15 @@ body {
     color: #303030;
     font-weight: 400;
     margin-bottom: 30px;
-  }  
+  }
+  th, td {
+    text-align: left;
+    padding: 4px 12px;
+  }
+  form {
+    width: fit-content;
+    margin: 0 auto;
+  }
   .jumbotron {
     background-color: #1ed0f4;
     color: #fff;
@@ -68,7 +76,7 @@ body {
     font-style: normal;
   }
   .panel {
-    border: 1px solid #1ed0f4; 
+    border: 1px solid #1ed0f4;
     border-radius:0 !important;
     transition: box-shadow 0.5s;
   }
@@ -144,7 +152,7 @@ body {
     0% {
       opacity: 0;
       transform: translateY(70%);
-    } 
+    }
     100% {
       opacity: 1;
       transform: translateY(0%);
@@ -154,7 +162,7 @@ body {
     0% {
       opacity: 0;
       -webkit-transform: translateY(70%);
-    } 
+    }
     100% {
       opacity: 1;
       -webkit-transform: translateY(0%);
